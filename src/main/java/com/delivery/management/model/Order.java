@@ -1,0 +1,22 @@
+package com.delivery.management.model;
+
+import lombok.Data;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Data
+@Entity
+@Table(name = "orders")
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long orderNumber;
+    private long itemNumber;
+    private int customerNumber;
+    private String customerName;
+    private String zipCode;
+    private String shippingAddress;
+}
