@@ -2,6 +2,7 @@ package com.delivery.management.controller;
 
 import com.delivery.management.model.Order;
 import com.delivery.management.repository.OrderRepository;
+import com.delivery.management.service.OrderService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -15,21 +16,17 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
     @Autowired
-    public OrderController(OrderRepository orderRepository) {
+    public OrderController(OrderRepository orderRepository,OrderService orderService) {
         this.orderRepository = orderRepository;
+        this.orderService = orderService;
     }
 
     @GetMapping("/orderDetails/{orderNumber}")
     public String getOrderDetails(@PathVariable long orderNumber){
-        try{
-            Order savedOrder = orderRepository.getReferenceById(orderNumber);
-            return savedOrder.getCustomerName();
-        }
-        catch (EntityNotFoundException e){
-            return "No order found for the order with order number " + orderNumber;
-        }
+        return orderService.getOrderByNumber(orderNumber);
     }
 
     @PostMapping("/placeOrder")
